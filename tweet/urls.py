@@ -1,12 +1,8 @@
-from django.contrib import admin
 from django.urls import path
-from .forms import (
+from .views import (
     tweet_view,
-    like_view
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('tweet/', tweet_view),
-    path('like/', like_view)
+    path('tweet/', tweet_view)
 ]

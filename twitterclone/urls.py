@@ -21,5 +21,6 @@ from .views import index_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view, name='home'),
-    path('', include('twitteruser.urls'))
+    path('', include('twitteruser.urls')),
+    path('', include('tweet.urls'))
 ]

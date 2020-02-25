@@ -32,7 +32,7 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = MyCustomUser.objects.create_user(
+            user = TwitterUser.objects.create_user(
                 username=data["username"],
                 password=data["password"]
             )
