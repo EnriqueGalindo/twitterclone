@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import TwitterUser
+from .models import TwitterUser
 
 # Register your models here.
-admin.site.Register(TwitterUser)
+admin.site.register(TwitterUser)
