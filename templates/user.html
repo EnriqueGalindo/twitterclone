@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{tweet.author}}</h1>
+    <a href='/follow/{{target_user.id}}'>follow</a>
+    {% for tweet in tweets %}
+    <ul>
+        <li>
+            {{tweet.author}}
+            {{tweet.date}}
+            <br></br>
+            {{tweet.text}}
+        </li>
+    </ul>
+    {% endfor %}
+</body>
+</html>

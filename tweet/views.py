@@ -13,8 +13,14 @@ def tweet_view(request):
         if form.is_valid():
             data = form.cleaned_data
             Tweet.objects.create(
-                tweet=data["tweet"]
+                text=data["tweet"],
+                author=request.user
                 )
             return redirect(reverse("home"))
     form = TweetForm()
     return render(request, html, {'form': form})
+
+
+def tweets_list_view(request):
+    tweets = Tweet.objects.all()
+    return render(request, 'tweets.html', {"tweets": tweets})

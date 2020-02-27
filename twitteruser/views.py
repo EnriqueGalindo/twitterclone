@@ -1,7 +1,10 @@
 from twitteruser.models import TwitterUser
+from django.http import HttpResponseRedirect
+from tweet.models import Tweet
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
+from django.conf import settings
 from .forms import LoginForm, RegisterForm
 
 
@@ -34,7 +37,8 @@ def register_view(request):
             data = form.cleaned_data
             user = TwitterUser.objects.create_user(
                 username=data["username"],
-                password=data["password"]
+                password=data["password"],
+                display_name=data["display_name"]
             )
             login(request, user)
             return redirect(reverse("home"))
@@ -47,3 +51,16 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+def following_view(request, id):
+    target_user = TwitterUser.objects.get(id=id)
+    current_user = request.user
+    current_user.user_follows.add(target_user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def user_view(request, id):
+    user = TwitterUser.objects.get(id=id)
+    tweets = Tweet.objects.filter(author=user)
+    return render(request, 'user.html', {'user': user, 'tweets': tweets})
