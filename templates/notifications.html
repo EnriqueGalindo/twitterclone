@@ -1,0 +1,6 @@
+{% for notification in notifications %}
+{% if notification.viewed == False %}
+    {{notification.tweet.text}}
+{% endif %}
+<br></br>
+{% endfor %}

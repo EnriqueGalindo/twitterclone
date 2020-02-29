@@ -12,18 +12,12 @@
         <a href='notifications/'><strong>notifications</strong> {{notification_count}}</a>
         <a href='/'>Home</a>
     </div>
-    <h1>{{tweet.author}}</h1>
-    <a href='/follow/{{target_user.id}}/'>follow</a>
-    <strong>tweets:</strong> {{tweet_count}} <strong>following: </strong>{{following_count}}
-    {% for tweet in tweets %}
-    <ul>
-        <li>
-            {{tweet.author}}
-            {{tweet.date}}
-            <br></br>
-            {{tweet.text}}
-        </li>
-    </ul>
-    {% endfor %}
+    <div>
+        <strong>Tweets: </strong> {{tweet_count}}
+        <strong>Following: </strong> {{follow_count}}
+    </div>
+    <div>{% include "tweets.html" with tweets=data %}</div>
+    
+    
 </body>
 </html>

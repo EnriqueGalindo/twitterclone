@@ -63,4 +63,15 @@ def following_view(request, id):
 def user_view(request, id):
     user = TwitterUser.objects.get(id=id)
     tweets = Tweet.objects.filter(author=user)
-    return render(request, 'user.html', {'user': user, 'tweets': tweets})
+    tweet_count = len(tweets)
+    following = user.user_follows
+    following_count = following.count()
+    return render(request,
+                  'user.html',
+                  {
+                        'target_user': user,
+                        'tweets': tweets,
+                        'tweet_count': tweet_count,
+                        'following_count': following_count
+                   }
+                  )

@@ -6,11 +6,19 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
+        <a href='logout/'>logout</a>
+        <a href='tweet/'>tweet</a>
+        <a href='notifications/'><strong>notifications</strong> {{notification_count}}</a>
+        <a href='/'>Home</a>
+    </div>
+    <h1>TWEETS!</h1>
     {% for tweet in tweets %}
     <ul>
         <li>
-            <a href='/user/{{tweet.author.id}}'>{{tweet.author}}</a>
+            <a href='/user/{{tweet.author.id}}/'>{{tweet.author}}</a>
             {{tweet.date}}
+            {{tweet.author.id}}
             <br></br>
             {{tweet.text}}
         </li>

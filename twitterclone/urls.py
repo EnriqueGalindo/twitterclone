@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view, name='home'),
     path('', include('twitteruser.urls')),
-    path('', include('tweet.urls'))
+    path('', include('tweet.urls')),
+    path('', include('notification.urls'))
 ]
