@@ -4,6 +4,8 @@ from .forms import TweetForm
 from notification.models import Notification
 from twitteruser.models import TwitterUser
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 
 
 @login_required()
@@ -31,7 +33,14 @@ def tweet_view(request):
     form = TweetForm()
     return render(request, html, {'form': form})
 
-@login_required(login_url='/login/')
-def tweets_list_view(request):
-    tweets = Tweet.objects.all()
-    return render(request, 'tweets.html', {"tweets": tweets})
+# @login_required(login_url='/login/')
+# def tweets_list_view(request):
+#     tweets = Tweet.objects.all()
+#     return render(request, 'tweets.html', {"tweets": tweets})
+
+
+class TweetListView(LoginRequiredMixin, View):
+    def get(self, request):
+        html = 'tweets.html'
+        tweets = Tweet.objects.all()
+        return render(request, html, {'tweets': tweets})

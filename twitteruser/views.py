@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
 from .forms import LoginForm, RegisterForm
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def login_view(request):
@@ -27,12 +29,34 @@ def login_view(request):
 
     return render(request, html, {'form': form})
 
+# def register_view(request):
+#     html = "genericForm.html"
 
-def register_view(request):
-    html = "genericForm.html"
+#     if request.method == "POST":
+#         form = RegisterForm(request.POST)
+#         if form.is_valid():
+#             data = form.cleaned_data
+#             user = TwitterUser.objects.create_user(
+#                 username=data["username"],
+#                 password=data["password"],
+#                 display_name=data["display_name"]
+#             )
+#             login(request, user)
+#             return redirect(reverse("home"))
 
-    if request.method == "POST":
+#     form = RegisterForm()
+
+#     return render(request, html, {'form': form})
+  
+class Register(View):
+    def get(self, request):
+        html = 'genericForm.html'
+        form = RegisterForm()
+        return render(request, html, {'form': form})
+
+    def post(self, request):
         form = RegisterForm(request.POST)
+
         if form.is_valid():
             data = form.cleaned_data
             user = TwitterUser.objects.create_user(
@@ -41,11 +65,7 @@ def register_view(request):
                 display_name=data["display_name"]
             )
             login(request, user)
-            return redirect(reverse("home"))
-
-    form = RegisterForm()
-
-    return render(request, html, {'form': form})
+            return render(request, 'home')
 
 
 def logout_view(request):
@@ -53,11 +73,19 @@ def logout_view(request):
     return redirect('login')
 
 
-def following_view(request, id):
-    target_user = TwitterUser.objects.get(id=id)
-    current_user = request.user
-    current_user.user_follows.add(target_user)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+# def following_view(request, id):
+#     target_user = TwitterUser.objects.get(id=id)
+#     current_user = request.user
+#     current_user.user_follows.add(target_user)
+#     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class FollowingView(LoginRequiredMixin, View):
+    def get(self, request, id):
+        target_user = TwitterUser.objects.get(id=id)
+        current_user = request.user
+        current_user.user_follows.add(target_user)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def user_view(request, id):
